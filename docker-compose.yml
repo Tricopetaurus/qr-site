@@ -1,0 +1,9 @@
+services:
+  web:
+    # Use when hosting w/ plain Python / Flask to shut down faster
+    stop_signal: SIGINT
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
