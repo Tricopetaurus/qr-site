@@ -1,0 +1,15 @@
+{
+  "secret": "701b88f66607d860dd9f21f581903845efc38a8fe7fd4134a5861fc820dc0f52",
+  "routes": [
+    {
+      "title": "Dad's Head",
+      "route": "dads_head",
+      "description": "Snap a picture of dad's BALD HEAD!"
+    },
+    {
+      "title": "Pokemon",
+      "route": "pokemon",
+      "description": "You look like a pokemon. Prove me right."
+    }
+  ]
+}

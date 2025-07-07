@@ -1,0 +1,22 @@
+* {
+    background: rgb(217, 222, 222);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 1em;
+}
+
+hr {
+    width: 40%
+}
+
+
+h1 {
+    color: #3a3a2d;
+}
+
+body {
+    padding: 5rem 1rem 1rem 1rem;
+    max-width: 600px;
+    margin: auto;
+}

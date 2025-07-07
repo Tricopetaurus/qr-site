@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "qr-site"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Tricopetaurus", email = "tricopetaurus@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "flask~=3.1.1",
+]
+
+[project.urls]
+Documentation = "https://github.com/Tricopetaurus/qr-site#readme"
+Issues = "https://github.com/Tricopetaurus/qr-site/issues"
+Source = "https://github.com/Tricopetaurus/qr-site"
+
+[tool.hatch.version]
+path = "src/qr_site/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/qr_site tests}"
+
+[tool.coverage.run]
+source_pkgs = ["qr_site", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/qr_site/__about__.py",
+]
+
+[tool.coverage.paths]
+qr_site = ["src/qr_site", "*/qr-site/src/qr_site"]
+tests = ["tests", "*/qr-site/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
