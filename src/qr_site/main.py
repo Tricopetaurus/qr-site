@@ -49,7 +49,8 @@ def generic_post():
     for category in ['selfie', 'uploaded']:
         files = request.files.getlist(category)
         for file in files:
-            file.save(user_folder / (category+secure_filename(file.filename)))
+            if file:
+                file.save(user_folder / f'{category}_{secure_filename(file.filename)}')
     return redirect(url_for('index'))
 
 
@@ -70,4 +71,4 @@ def main(config_file: Path, host: str = '127.0.0.1', port: int = 8080):
     if not config:
         sys.exit(1)
     build_routes()
-    app.run(host=host, port=port)
+    app.run(host=host, port=port, debug=True)
