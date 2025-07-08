@@ -22,6 +22,13 @@
         <hr>
         <p>Hello "{{name}}"!</p>
 
+        {% if upload %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Upload Successful!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+
         <div class="accordion" id="accord_routes">
             {% for route in routes %}
             <div class="accordion-item">

@@ -30,7 +30,9 @@ def index():
         return render_template(
             'index.html',
             name=session['username'],
-            routes=config.c.routes)
+            routes=config.c.routes,
+            upload=request.args.get('upload')
+        )
     else:
         return redirect(url_for('login'))
 
@@ -51,7 +53,7 @@ def generic_post():
         for file in files:
             if file:
                 file.save(user_folder / f'{category}_{secure_filename(file.filename)}')
-    return redirect(url_for('index'))
+    return redirect(url_for('index', upload='success'))
 
 
 def build_routes():
