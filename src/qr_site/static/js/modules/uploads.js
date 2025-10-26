@@ -67,10 +67,11 @@ class UploadForm {
         const files = e.target?.files;
         // Also get the label that's really associated with this button
         const label = this.label_for_button(e.target);
-        console.log(e.target);
+        // console.log(e.target);
 
         if (files && files.length) {
-            label.innerText = `${`${files.length > 1 ? files.length+' ' : ''}`}Photo${files.length > 1 ? 's' : ''} Ready!`;
+            label.innerText = `${files.length > 1 ? files.length + ' ' : ''}Photo${files.length > 1 ? 's' : ''} Ready!`;
+            // label.innerText = `${`${files.length > 1 ? files.length+' ' : ''}`}Photo${files.length > 1 ? 's' : ''} Ready!`;
         } else {
             label.innerHTML = this.original_text[e.target.id];
         }
@@ -91,10 +92,10 @@ class UploadForm {
         }
 
         if (this.submit_button.disabled) {
-            console.log("Adding d-none");
+            // console.log("Adding d-none");
             this.cancel_button.classList.add('d-none');
         } else {
-            console.log("Removing d-none");
+            // console.log("Removing d-none");
             this.cancel_button.classList.remove('d-none');
         }
     }

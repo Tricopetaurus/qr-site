@@ -1,5 +1,7 @@
 import sys
 from pathlib import Path
+import random
+import string
 
 import qr_site.config as config
 from werkzeug.utils import secure_filename
@@ -14,23 +16,30 @@ app = Flask(__name__)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        session['username'] = request.form['username']
+        session['display_name'] = request.form['username']
+        # Create a separate variable, username, that's unlikely to hit collision.
+        # This will be the one that's actually used for disk.
+        session['username'] = f'{request.form['username']}_{get_rand()}'
+        session['progress'] = dict()
         return redirect(url_for('index'))
     else:
         return render_template('login.html')
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    session.clear()
     return redirect(url_for('index'))
 
 @app.route('/')
 def index():
-    if 'username' in session:
+    if 'username' in session and 'display_name' in session:
+
+        print(session.get('progress'))
         return render_template(
             'index.html',
-            name=session['username'],
+            name=session['display_name'],
             routes=config.c.routes,
+            progress=session.get('progress'),
             upload=request.args.get('upload')
         )
     else:
@@ -48,13 +57,28 @@ def generic_post():
     user_folder = folder / safe_user
     if not user_folder.exists():
         user_folder.mkdir()
+
+    upload_count = 0
     for category in ['selfie', 'uploaded']:
         files = request.files.getlist(category)
         for file in files:
             if file:
-                file.save(user_folder / f'{category}_{secure_filename(file.filename)}')
+                # prepend a random string to prevent collision
+                base_fname = secure_filename(file.filename)
+                file.save(user_folder / f'{category}_{get_rand()+base_fname}')
+                upload_count += 1
+
+    route = request.path.lstrip('/')
+    if route not in session['progress']:
+        session['progress'][route] = upload_count
+    else:
+        session['progress'][route] += upload_count
+    session.modified = True
+
     return redirect(url_for('index', upload='success'))
 
+def get_rand():
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=8))
 
 def build_routes():
     # We need to loop over the routes in our config
@@ -70,7 +94,7 @@ def main(config_file: Path, host: str = '127.0.0.1', port: int = 8080):
     config.load_config(config_file)
     app.secret_key = bytes.fromhex(config.c.secret)
     print(f'Set secret key to {app.secret_key.hex()}')
-    if not config:
+    if not config.is_valid():
         sys.exit(1)
     build_routes()
     app.run(host=host, port=port, debug=True)
