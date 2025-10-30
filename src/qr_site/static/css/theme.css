@@ -1,0 +1,80 @@
+:root {
+    --bs-body-color: #6D7119;
+    --bs-body-bg: #EDD198;
+    --bs-primary: #C7793A;
+    --bs-primary-bg-subtle: #C7793A;
+    --bs-border-color: #784821;
+    --bs-secondary-bg: #6D7119;
+    --bs-secondary-bg-subtle: #8a8e2e;
+    --bs-secondary-border-subtle: #44470f;
+    --bs-primary-text-emphasis: #784821;
+    --bs-danger: #784821;
+
+    --adobe-a: #8C8846;
+    --adobe-b: #594225;
+    --adobe-c: #D9B88F;
+    --adobe-d: #BF6E3F;
+    --adobe-e: #D9CEC7;
+
+    --bs-body-color: var(--adobe-b);
+    --bs-body-bg: var(--adobe-c);
+    --bs-primary-bg-subtle: var(--adobe-d);
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0,0,0,.125);
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: rgba(0,0,0,.125);
+}
+
+.accordion-button:not(.collapsed) {
+    color: #ffffff;
+}
+.accordion-button.collapsed {
+    color: var(--bs-body-color);
+}
+.accordion-button:not(.collapsed)::after {
+    background-image: var(--bs-accordion-btn-icon);
+}
+
+.btn-danger {
+    background-color: var(--bs-danger);
+    border-color: var(--bs-border-color);
+}
+.btn-danger:hover {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-border-color);
+}
+
+.btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-border-color);
+}
+
+.btn-primary:disabled {
+    background-color: var(--bs-primary-bg-subtle);
+    border-color: var(--bs-border-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--bs-border-color);
+    border-color: var(--bs-border-color);
+}
+
+.btn-secondary {
+    background-color: var(--bs-secondary-bg-subtle);
+    border-color: var(--bs-secondary-border-subtle);
+}
+.btn-secondary:hover {
+    background-color: var(--bs-secondary-bg);
+    border-color: var(--bs-secondary-border-subtle);
+}
+
+.caret {
+    color: #ffffff;
+    background: #000000;
+}

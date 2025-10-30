@@ -70,8 +70,7 @@ class UploadForm {
         // console.log(e.target);
 
         if (files && files.length) {
-            label.innerText = `${files.length > 1 ? files.length + ' ' : ''}Photo${files.length > 1 ? 's' : ''} Ready!`;
-            // label.innerText = `${`${files.length > 1 ? files.length+' ' : ''}`}Photo${files.length > 1 ? 's' : ''} Ready!`;
+            label.textContent = `${files.length > 1 ? files.length + ' ' : ''}Photo${files.length > 1 ? 's' : ''} Ready!`;
         } else {
             label.innerHTML = this.original_text[e.target.id];
         }
