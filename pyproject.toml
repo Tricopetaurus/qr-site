@@ -25,7 +25,8 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "flask~=3.1.1",
+  "flask~=3.1.2",
+  "boto3~=1.40.63"
 ]
 
 [project.urls]

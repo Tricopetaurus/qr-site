@@ -17,12 +17,13 @@ class Config:
     secret: str
     routes: List[Route]
     access_token: str
+    bucket_name: str
 
 
 __valid = False
 # When we make the placeholder, force something stupid for the access string.
 # That way an unconfigured server doesn't accidentally permit uploads
-c = Config('', [], 'C'*64)
+c = Config('', [], 'C'*64, '')
 
 def is_valid():
     global __valid

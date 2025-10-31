@@ -8,11 +8,13 @@ from werkzeug.utils import secure_filename
 
 from .logs import get_logger
 
+import boto3
+import botocore.exceptions as s3_error
 from flask import Flask, render_template, session, redirect, url_for, request
 
 log = get_logger(__name__)
 app = Flask(__name__)
-
+s3 = boto3.client('s3')
 
 def check_token():
     """Lets a user forward if either of the conditions are met:
@@ -80,16 +82,12 @@ def generic_post():
         return render_template('request_access.html')
 
     folder = Path(f'pictures/{request.path}')
-    if not folder.exists():
-        log.error(f'Folder {folder} does not exist')
-        return 404
     if 'username' not in session:
         log.error('User is not logged in!')
         return redirect(url_for('login'))
+
     safe_user = secure_filename(session['username'])
     user_folder = folder / safe_user
-    if not user_folder.exists():
-        user_folder.mkdir()
 
     upload_count = 0
     for category in ['selfie', 'uploaded']:
@@ -98,7 +96,13 @@ def generic_post():
             if file:
                 # prepend a random string to prevent collision
                 base_fname = secure_filename(file.filename)
-                file.save(user_folder / f'{category}_{get_rand()+base_fname}')
+                full_fname = user_folder / f'{category}_{get_rand()+base_fname}'
+                s3.put_object(
+                    Bucket=config.c.bucket_name,
+                    Key=str(full_fname),
+                    Body=file.stream.read(),
+                )
+
                 upload_count += 1
 
     route = request.path.lstrip('/')
@@ -118,9 +122,6 @@ def build_routes():
     # Each entry becomes a postable form that eats pictures.
     # Pictures will be stored in pictures/route/user folders.
     for route in config.c.routes:
-        folder = Path(f'pictures/{route["route"]}')
-        if not folder.exists():
-            folder.mkdir(parents=True)
         app.add_url_rule(f'/{route["route"]}', view_func=generic_post, methods=['POST'])
 
 def main(config_file: Path, host: str = '127.0.0.1', port: int = 8080):
@@ -128,5 +129,13 @@ def main(config_file: Path, host: str = '127.0.0.1', port: int = 8080):
     app.secret_key = bytes.fromhex(config.c.secret)
     if not config.is_valid():
         sys.exit(1)
+
+    # Verify AWS is working
+    try:
+        s3.get_bucket_acl(Bucket=config.c.bucket_name)
+    except s3_error.ClientError as e:
+        print(e)
+        sys.exit(1)
+
     build_routes()
     app.run(host=host, port=port, debug=True)
