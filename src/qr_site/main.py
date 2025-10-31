@@ -13,6 +13,20 @@ from flask import Flask, render_template, session, redirect, url_for, request
 log = get_logger(__name__)
 app = Flask(__name__)
 
+
+def check_token():
+    """Lets a user forward if either of the conditions are met:
+     - Access token present in URL, and is accurate
+     - Access token present in cookies, and is accurate"""
+    access_token = request.args.get('access_token')
+    if access_token:
+        session['access_token'] = access_token
+
+    if 'access_token' in session:
+        return session['access_token'] == config.c.access_token
+    return False
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -22,18 +36,27 @@ def login():
         session['username'] = f'{request.form['username']}_{get_rand()}'
         session['progress'] = dict()
         return redirect(url_for('index'))
+
+    # GET Case
     else:
-        return render_template('login.html')
+        if check_token():
+            return render_template('login.html')
+        else:
+            return redirect(url_for('request_access'))
 
 @app.route('/logout')
 def logout():
+    # Clear out everything, including the access token.
+    # They will need to re-scan the QR Code to get back in.
     session.clear()
     return redirect(url_for('index'))
 
 @app.route('/')
 def index():
-    if 'username' in session and 'display_name' in session:
+    if not check_token():
+        return redirect(url_for('request_access'))
 
+    if 'username' in session and 'display_name' in session:
         print(session.get('progress'))
         return render_template(
             'index.html',
@@ -45,7 +68,17 @@ def index():
     else:
         return redirect(url_for('login'))
 
+@app.route('/request_access')
+def request_access():
+    if not check_token():
+        return render_template('request_access.html')
+    else:
+        return redirect(url_for('index'))
+
 def generic_post():
+    if not check_token():
+        return render_template('request_access.html')
+
     folder = Path(f'pictures/{request.path}')
     if not folder.exists():
         log.error(f'Folder {folder} does not exist')
@@ -93,7 +126,6 @@ def build_routes():
 def main(config_file: Path, host: str = '127.0.0.1', port: int = 8080):
     config.load_config(config_file)
     app.secret_key = bytes.fromhex(config.c.secret)
-    print(f'Set secret key to {app.secret_key.hex()}')
     if not config.is_valid():
         sys.exit(1)
     build_routes()

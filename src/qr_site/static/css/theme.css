@@ -23,12 +23,12 @@
 
 .accordion-button:focus {
     box-shadow: none;
-    border-color: rgba(0,0,0,.125);
+    border-color: var(--bs-body-color)
 }
 
 .form-control:focus {
     box-shadow: none;
-    border-color: rgba(0,0,0,.125);
+    border-color: var(--bs-body-color)
 }
 
 .accordion-button:not(.collapsed) {
@@ -37,6 +37,12 @@
 .accordion-button.collapsed {
     color: var(--bs-body-color);
 }
+
+.accordion-button.upload-done {
+    background-color: var(--adobe-a);
+    color: #ffffff;
+}
+
 .accordion-button:not(.collapsed)::after {
     background-image: var(--bs-accordion-btn-icon);
 }
@@ -74,7 +80,8 @@
     border-color: var(--bs-secondary-border-subtle);
 }
 
-.caret {
+.toast {
+    background-color: var(--adobe-a);
     color: #ffffff;
-    background: #000000;
+    border-color: var(--bs-body-color)
 }

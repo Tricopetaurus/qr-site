@@ -1,5 +1,6 @@
 {
   "secret": "701b88f66607d860dd9f21f581903845efc38a8fe7fd4134a5861fc820dc0f52",
+  "access_token": "whogotpickles",
   "routes": [
     {
       "title": "Dad's Head",
@@ -10,6 +11,71 @@
       "title": "Pokemon",
       "route": "pokemon",
       "description": "You look like a pokemon. Prove me right."
+    },
+    {
+      "title": "Pet Parade",
+      "route": "pet_parade",
+      "description": "Capture a moment with the cutest pet in costume!"
+    },
+    {
+      "title": "Sunset Silhouette",
+      "route": "sunset_silhouette",
+      "description": "Take a dramatic silhouette photo against the sunset."
+    },
+    {
+      "title": "Festival Fun",
+      "route": "festival_fun",
+      "description": "Document the lively ambience at a local festival."
+    },
+    {
+      "title": "Coffee Shop Vibes",
+      "route": "coffee_shop_vibes",
+      "description": "Capture the cozy atmosphere of your favorite coffee shop."
+    },
+    {
+      "title": "Street Art",
+      "route": "street_art",
+      "description": "Find and snap a picture of colorful street art."
+    },
+    {
+      "title": "Nature Trail",
+      "route": "nature_trail",
+      "description": "Take a stunning shot of nature while hiking."
+    },
+    {
+      "title": "Game Night",
+      "route": "game_night",
+      "description": "Capture the laughter and competition during a game night."
+    },
+    {
+      "title": "Food Truck Fiesta",
+      "route": "food_truck_fiesta",
+      "description": "Snap photos of delicious treats from local food trucks."
+    },
+    {
+      "title": "Twinkle Lights",
+      "route": "twinkle_lights",
+      "description": "Capture the magic of twinkling lights at night."
+    },
+    {
+      "title": "Throwback Thursday",
+      "route": "throwback_thursday",
+      "description": "Share a nostalgic photo from your childhood."
+    },
+    {
+      "title": "Adventure Awaits",
+      "route": "adventure_awaits",
+      "description": "Document an adventurous moment, big or small!"
+    },
+    {
+      "title": "Family Reunion",
+      "route": "family_reunion",
+      "description": "Capture the smiles and connections at a family gathering."
+    },
+    {
+      "title": "Local Market",
+      "route": "local_market",
+      "description": "Take a charming photo while exploring a local market."
     }
   ]
 }
